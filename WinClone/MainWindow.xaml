@@ -1,0 +1,406 @@
+﻿<Window x:Class="WinClone.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="WinClone"
+        Width="1100"
+        Height="750"
+        MinWidth="900"
+        MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        Background="#111111">
+
+    <Grid Margin="30">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- ================================================= -->
+        <!-- HEADER                                            -->
+        <!-- ================================================= -->
+
+        <StackPanel Grid.Row="0">
+
+            <TextBlock Text="WinClone"
+                       FontSize="32"
+                       FontWeight="Bold"
+                       Foreground="White"/>
+
+            <TextBlock Text="Free Windows System Cloning"
+                       FontSize="15"
+                       Foreground="#AAAAAA"
+                       Margin="0,5,0,0"/>
+
+        </StackPanel>
+
+
+        <!-- ================================================= -->
+        <!-- SOURCE / DESTINATION                              -->
+        <!-- ================================================= -->
+
+        <Grid Grid.Row="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <!-- SOURCE -->
+
+            <Border Grid.Column="0"
+                    Background="#1B1B1B"
+                    BorderBrush="#333333"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Padding="18">
+
+                <StackPanel>
+
+                    <TextBlock Text="SOURCE DRIVE"
+                               Foreground="#AAAAAA"
+                               FontWeight="Bold"
+                               FontSize="13"/>
+
+                    <TextBlock Text="Drive containing Windows"
+                               Foreground="White"
+                               FontSize="20"
+                               FontWeight="SemiBold"
+                               Margin="0,8,0,12"/>
+
+                    <ComboBox x:Name="SourceDriveComboBox"
+                              Height="40"
+                              FontSize="14"
+                              Foreground="Black"
+                              Background="White"
+                              DisplayMemberPath="DisplayName"/>
+
+                </StackPanel>
+
+            </Border>
+
+
+            <!-- ARROW -->
+
+            <TextBlock Grid.Column="1"
+                       Text="→"
+                       Foreground="#4F8CFF"
+                       FontSize="30"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+
+
+            <!-- DESTINATION -->
+
+            <Border Grid.Column="2"
+                    Background="#1B1B1B"
+                    BorderBrush="#333333"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Padding="18">
+
+                <StackPanel>
+
+                    <TextBlock Text="DESTINATION DRIVE"
+                               Foreground="#AAAAAA"
+                               FontWeight="Bold"
+                               FontSize="13"/>
+
+                    <TextBlock Text="Drive that will receive the clone"
+                               Foreground="White"
+                               FontSize="20"
+                               FontWeight="SemiBold"
+                               Margin="0,8,0,12"/>
+
+                    <ComboBox x:Name="DestinationDriveComboBox"
+                              Height="40"
+                              FontSize="14"
+                              Foreground="Black"
+                              Background="White"
+                              DisplayMemberPath="DisplayName"/>
+
+                </StackPanel>
+
+            </Border>
+
+        </Grid>
+
+
+        <!-- ================================================= -->
+        <!-- MAIN SCROLLABLE AREA                              -->
+        <!-- ================================================= -->
+
+        <ScrollViewer Grid.Row="4"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+
+            <StackPanel>
+
+
+                <!-- ================================================= -->
+                <!-- MAIN BUTTONS                                      -->
+                <!-- ================================================= -->
+
+                <WrapPanel Margin="0,0,0,0">
+
+                    <Button x:Name="DetectDrivesButton"
+                            Content="Detect Drives"
+                            Width="150"
+                            Height="42"
+                            Click="DetectDrivesButton_Click"
+                            Background="#3478F6"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Margin="0,0,10,10"/>
+
+                    <Button x:Name="AnalyzeButton"
+                            Content="Analyze Clone"
+                            Width="150"
+                            Height="42"
+                            Click="AnalyzeButton_Click"
+                            Background="#292929"
+                            Foreground="White"
+                            BorderThickness="1"
+                            BorderBrush="#555555"
+                            IsEnabled="False"
+                            Margin="0,0,10,10"/>
+
+                    <Button x:Name="ReviewCloneButton"
+                            Content="Review &amp; Confirm"
+                            Width="170"
+                            Height="42"
+                            Click="ReviewCloneButton_Click"
+                            Background="#C58B00"
+                            Foreground="White"
+                            BorderThickness="0"
+                            IsEnabled="False"
+                            Margin="0,0,10,10"/>
+
+                </WrapPanel>
+
+
+                <!-- ================================================= -->
+                <!-- ANALYSIS                                          -->
+                <!-- ================================================= -->
+
+                <Border Background="#1B1B1B"
+                        BorderBrush="#333333"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Padding="18"
+                        Margin="0,10,0,0">
+
+                    <StackPanel>
+
+                        <TextBlock Text="CLONE ANALYSIS"
+                                   Foreground="#AAAAAA"
+                                   FontWeight="Bold"
+                                   FontSize="13"/>
+
+                        <TextBlock x:Name="AnalysisText"
+                                   Text="Detect your drives and select a source and destination."
+                                   Foreground="White"
+                                   FontSize="15"
+                                   TextWrapping="Wrap"
+                                   Margin="0,8,0,0"/>
+
+                    </StackPanel>
+
+                </Border>
+
+
+                <!-- ================================================= -->
+                <!-- FINAL CONFIRMATION                                -->
+                <!-- ================================================= -->
+
+                <Border x:Name="FinalConfirmationPanel"
+                        Visibility="Collapsed"
+                        Background="#241414"
+                        BorderBrush="#AA3333"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Padding="18"
+                        Margin="0,20,0,0">
+
+                    <StackPanel>
+
+                        <TextBlock Text="FINAL CONFIRMATION"
+                                   Foreground="#FF6666"
+                                   FontWeight="Bold"
+                                   FontSize="20"/>
+
+                        <TextBlock Text="You are preparing a clone operation."
+                                   Foreground="White"
+                                   FontSize="15"
+                                   Margin="0,10,0,10"/>
+
+                        <TextBlock x:Name="FinalConfirmationText"
+                                   Foreground="White"
+                                   FontSize="14"
+                                   TextWrapping="Wrap"/>
+
+                        <TextBlock Text="Type CLONE to confirm that you understand."
+                                   Foreground="White"
+                                   Margin="0,18,0,6"/>
+
+                        <TextBox x:Name="ConfirmationTextBox"
+                                 Height="40"
+                                 FontSize="16"
+                                 Padding="8"
+                                 MaxLength="20"
+                                 TextChanged="ConfirmationTextBox_TextChanged"/>
+
+                        <Button x:Name="ConfirmClonePlanButton"
+                                Content="Confirm Clone Plan"
+                                Width="190"
+                                Height="42"
+                                HorizontalAlignment="Left"
+                                Margin="0,12,0,0"
+                                Click="ConfirmClonePlanButton_Click"
+                                Background="#DD4444"
+                                Foreground="White"
+                                BorderThickness="0"
+                                IsEnabled="False"/>
+
+                        <Button x:Name="PrepareSnapshotButton"
+                                Content="Prepare Windows Snapshot"
+                                Width="230"
+                                Height="42"
+                                HorizontalAlignment="Left"
+                                Margin="0,10,0,0"
+                                Click="PrepareSnapshotButton_Click"
+                                Background="#3478F6"
+                                Foreground="White"
+                                BorderThickness="0"
+                                IsEnabled="False"/>
+
+                        <Button x:Name="PrepareCloneLayoutButton"
+                                Content="Prepare Clone Layout"
+                                Width="210"
+                                Height="42"
+                                HorizontalAlignment="Left"
+                                Margin="0,10,0,0"
+                                Click="PrepareCloneLayoutButton_Click"
+                                Background="#3478F6"
+                                Foreground="White"
+                                BorderThickness="0"
+                                IsEnabled="False"/>
+
+                        <Button x:Name="LockClonePlanButton"
+                                Content="Lock Clone Plan"
+                                Width="180"
+                                Height="42"
+                                HorizontalAlignment="Left"
+                                Margin="0,10,0,0"
+                                Click="LockClonePlanButton_Click"
+                                Background="#C58B00"
+                                Foreground="White"
+                                BorderThickness="0"
+                                IsEnabled="False"/>
+
+                        <Button x:Name="ValidateWriteGuardButton"
+                                Content="Validate Write Guard"
+                                Width="210"
+                                Height="42"
+                                HorizontalAlignment="Left"
+                                Margin="0,10,0,0"
+                                Click="ValidateWriteGuardButton_Click"
+                                Background="#555555"
+                                Foreground="White"
+                                BorderThickness="0"
+                                IsEnabled="False"/>
+
+                        <Button x:Name="SimulateCloneButton"
+                                Content="Simulate Clone (DRY RUN)"
+                                Width="230"
+                                Height="42"
+                                HorizontalAlignment="Left"
+                                Margin="0,10,0,0"
+                                Click="SimulateCloneButton_Click"
+                                Background="#555555"
+                                Foreground="White"
+                                BorderThickness="0"
+                                IsEnabled="False"/>
+
+                        <Button x:Name="EngineSelfTestButton"
+        Content="Engine Self-Test (NO WRITE)"
+        Width="230"
+        Height="42"
+        HorizontalAlignment="Left"
+        Margin="0,10,0,0"
+        Click="EngineSelfTestButton_Click"
+        Background="#555555"
+        Foreground="White"
+        BorderThickness="0"
+        IsEnabled="False"/>
+                        <ProgressBar x:Name="CloneProgressBar"
+                                     Width="450"
+                                     Height="22"
+                                     HorizontalAlignment="Left"
+                                     Margin="0,15,0,0"
+                                     Minimum="0"
+                                     Maximum="100"
+                                     Value="0"/>
+
+                        <!-- THIS IS THE FIX: Replaced EngineSelfTestButton with TestTargetBackendButton -->
+                        <Button x:Name="TestTargetBackendButton"
+                                Content="Engine Self-Test (NO WRITE)"
+                                Width="230"
+                                Height="42"
+                                HorizontalAlignment="Left"
+                                Margin="0,10,0,0"
+                                Click="TestTargetBackendButton_Click"
+                                Background="#555555"
+                                Foreground="White"
+                                BorderThickness="0"
+                                IsEnabled="False"/>
+
+                    </StackPanel>
+
+                </Border>
+
+
+                <!-- ================================================= -->
+                <!-- DETECTED DISKS                                    -->
+                <!-- ================================================= -->
+
+                <TextBlock Text="DETECTED DISKS"
+                           Foreground="#AAAAAA"
+                           FontWeight="Bold"
+                           FontSize="13"
+                           Margin="0,25,0,10"/>
+
+                <StackPanel x:Name="DiskListPanel"/>
+
+            </StackPanel>
+
+        </ScrollViewer>
+
+
+        <!-- ================================================= -->
+        <!-- STATUS                                            -->
+        <!-- ================================================= -->
+
+        <Border Grid.Row="6"
+                Background="#1B1B1B"
+                CornerRadius="8"
+                Padding="14">
+
+            <TextBlock x:Name="StatusText"
+                       Text="Ready — READ-ONLY MODE"
+                       Foreground="#55DD77"
+                       FontSize="14"
+                       FontWeight="SemiBold"/>
+
+        </Border>
+
+    </Grid>
+
+</Window>
